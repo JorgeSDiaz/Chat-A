@@ -1,12 +1,12 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 
-interface IFormInput {
-  email: string;
-  username: string;
-  password: string;
-  verifyPassword: string;
-  birthDate: Date;
-}
+// interface IFormInput {
+//   email: string;
+//   username: string;
+//   password: string;
+//   verifyPassword: string;
+//   birthDate: Date;
+// }
 
 export default function Register() {
   const {
@@ -15,9 +15,11 @@ export default function Register() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
     console.log(data);
   }
+
+  const errorInputStyle: string = "border-red-500 focus:outline-red-500";
 
   return (
     <div onSubmit={handleSubmit((data) => onSubmit(data))} className="bg-green-100 h-screen flex items-center">
@@ -27,58 +29,56 @@ export default function Register() {
           <div>
             <input
               type="email"
-              placeholder="Email"
-              className="block w-full rounded-md p-2 border"
-              {...register("email", { required: { value: true, message: "Email is required" } })}
+              placeholder="Email ⁕"
+              className={"block w-full rounded-md p-2 border " + `${errors.email ? errorInputStyle : ""}`}
+              {...register("email", { required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/ })}
             />
-            {
-              errors.email?.type === "required" && <span className="text-red-500 text-sm ml-2 font-semibold italic">{(errors.email.message)?.toString()}</span>
-            }
+            {errors.email?.type == "pattern" &&
+              <div>
+                <span className="text-red-500 text-xs font-bold italic">
+                  <p>Invalid email format</p>
+                  <ul className="list-disc list-inside">
+                    <li>Use of lowercase letters only</li>
+                    <li>Minimum one @ and one .</li>
+                  </ul>
+                </span>
+              </div>}
           </div>
 
           <div>
             <input
               type="text"
-              placeholder="Username"
-              className="block w-full rounded-md p-2 border"
-              {...register("username", { required: { value: true, message: "Username is required" } })}
+              placeholder="Username ⁕"
+              className={"block w-full rounded-md p-2 border " + `${errors.username ? errorInputStyle : ""}`}
+              {...register("username", { required: true })}
             />
-            {
-              errors.username?.type === "required" && <span className="text-red-500 text-sm ml-2 font-semibold italic">{(errors.username.message)?.toString()}</span>
-            }
           </div>
 
           <div>
             <input
               type="date"
               placeholder="Date of Birth"
-              className="block w-full rounded-md p-2 border text-gray-400"
-              {...register("birthDate", { required: { value: true, message: "Birthday is required" } })}
+              className={"block w-full rounded-md p-2 text-gray-400 border " + `${errors.birthDate ? errorInputStyle : ""}`}
+              {...register("birthDate", { required: true })}
             />
-            {
-              errors.birthDate?.type === "required" && <span className="text-red-500 text-sm ml-2 font-semibold italic">{(errors.birthDate.message)?.toString()}</span>
-            }
           </div>
 
           <div>
             <input
               type="password"
-              placeholder="Password"
-              className="block w-full rounded-md p-2 border"
-              {...register("password", { required: { value: true, message: "Password is required" } })}
+              placeholder="Password ⁕"
+              className={"block w-full rounded-md p-2 border " + `${errors.password ? errorInputStyle : ""}`}
+              {...register("password", { required: true })}
             />
-            {
-              errors.password?.type === "required" && <span className="text-red-500 text-sm ml-2 font-semibold italic">{(errors.password.message)?.toString()}</span>
-            }
           </div>
 
           <div>
 
             <input
               type="password"
-              placeholder="Verify password"
-              className="block w-full rounded-md p-2 border"
-              {...register("verifyPassword")}
+              placeholder="Verify password ⁕"
+              className={"block w-full rounded-md p-2 border " + `${errors.verifyPassword ? errorInputStyle : ""}`}
+              {...register("verifyPassword", { required: true })}
             />
           </div>
         </div>
