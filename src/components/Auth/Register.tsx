@@ -21,6 +21,8 @@ export default function Register() {
 
   const errorInputStyle: string = "border-red-500 focus:outline-red-500";
 
+  const emailRules: string[] = ["Use of lowercase letters only", "Minimum one @ and one ."];
+
   return (
     <div onSubmit={handleSubmit((data) => onSubmit(data))} className="bg-green-100 h-screen flex items-center">
       <form className="w-72 mx-auto">
@@ -38,8 +40,11 @@ export default function Register() {
                 <span className="text-red-500 text-xs font-bold italic">
                   <p>Invalid email format</p>
                   <ul className="list-disc list-inside">
-                    <li>Use of lowercase letters only</li>
-                    <li>Minimum one @ and one .</li>
+                    {
+                      emailRules.map((emailRule: string) => {
+                        return <li className="ml-2">{emailRule}</li>
+                      })
+                    }
                   </ul>
                 </span>
               </div>}
