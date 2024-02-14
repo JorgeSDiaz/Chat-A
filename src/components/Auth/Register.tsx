@@ -82,8 +82,9 @@ export default function Register() {
                 type="password"
                 placeholder="Password ⁕"
                 className={`${inputStyle}` + `${errors.password ? errorInputStyle : ""}`}
-                max={(new Date().toISOString().split('T')[0]).toString()}
-                {...register("password", { required: true, minLength: 8, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~\\-]).{8,}$/ })}
+                {...register("password", {
+                  required: true, minLength: 8, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?/~\\-]).{8,}$/
+                })}
               />
               {
                 (errors.password?.type === "minLength" || errors.password?.type === "pattern") &&
@@ -100,11 +101,11 @@ export default function Register() {
                 {...register("confirmPassword", { required: true, validate: (value) => value === watch("password") })}
               />
               {errors.confirmPassword?.type === "validate" &&
-                <p className="text-xs text-red-500 font-bold">Passwords do not match</p>
+                <p className="text-xs text-red-500 font-bold mt-1">Passwords do not match</p>
               }
             </div>
           </div>
-          <button className="bg-green-500 text-white font-bold block w-full rounded-md p-2 mt-8 disabled:bg-green-300" disabled={Object.keys(errors).length > 0}>
+          <button className="bg-green-500 text-white font-bold block w-full rounded-md p-2 mt-7 disabled:bg-green-300" disabled={Object.keys(errors).length > 0}>
             Register
           </button>
         </form>

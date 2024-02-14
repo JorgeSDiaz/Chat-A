@@ -6,11 +6,11 @@ interface ErrorRulesMessageProps {
 export default function ErrorRulesMessage({ title, rules }: ErrorRulesMessageProps) {
     return (
         <span className="text-red-500 text-xs font-bold italic">
-            <p>{title}</p>
+            <p className="mt-1">{title}</p>
             <ul className="list-disc list-inside">
                 {
-                    rules.map((rule: string) => {
-                        return <li className="ml-2">{rule}</li>
+                    rules.map((rule: string, index: number) => {
+                        return <li key={index} className="ml-2">{rule}</li>
                     })
                 }
             </ul>
