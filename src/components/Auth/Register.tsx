@@ -91,7 +91,7 @@ export default function Register() {
             }
           </div>
         </div>
-        <button className="bg-green-500 text-white block w-full rounded-md p-2 mt-6">
+        <button className="bg-green-500 text-white font-bold block w-full rounded-md p-2 mt-6 disabled:bg-green-300" disabled={Object.keys(errors).length > 0}>
           Register
         </button>
       </form>
