@@ -30,7 +30,7 @@ export default function Register() {
     console.log(data);
   }
 
-  const inputStyle: string = "block w-full bg-gray-100 placeholder:text-zinc-500 rounded-md p-3 border ";
+  const inputStyle: string = "block w-full bg-gray-100 hover:bg-gray-200 placeholder:text-zinc-500 rounded-md p-3 border ";
   const errorInputStyle: string = "border-red-500 focus:outline-red-500";
 
   const emailRules: string[] = ["Use of lowercase letters only", "Minimum one @ and one ."];
@@ -105,7 +105,7 @@ export default function Register() {
               }
             </div>
           </div>
-          <button className="bg-green-500 text-white font-bold block w-full rounded-md p-2 mt-7 disabled:bg-green-300" disabled={Object.keys(errors).length > 0}>
+          <button className="bg-green-500 text-white font-bold block w-full rounded-md p-2 mt-7 hover:bg-green-600 disabled:bg-green-300" disabled={Object.keys(errors).length > 0}>
             Register
           </button>
         </form>
