@@ -25,6 +25,7 @@ export default function Register() {
 
   const emailRules: string[] = ["Use of lowercase letters only", "Minimum one @ and one ."];
   const usernameRules: string[] = ["Use of lowercase and uppercase letters", "Use of numbers", "No special characters", "Minimum 5 characters", "Maximum 20 characters"];
+  const passwordRules: string[] = ["Use minimum one special characters", "Minimum 8 characters", "Use minimum one lowercase letter", "Use minimum one uppercase letter", "Use minimum one number"]
 
   return (
     <div onSubmit={handleSubmit((data) => onSubmit(data))} className="bg-green-100 h-screen flex items-center">
@@ -69,8 +70,12 @@ export default function Register() {
               type="password"
               placeholder="Password ⁕"
               className={"block w-full rounded-md p-2 border " + `${errors.password ? errorInputStyle : ""}`}
-              {...register("password", { required: true })}
+              {...register("password", { required: true, minLength: 8, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~\\-]).{8,}$/ })}
             />
+            {
+              (errors.password?.type === "minLength" || errors.password?.type === "pattern") &&
+              <ErrorRulesMessage title="Invalid password" rules={passwordRules} />
+            }
           </div>
 
           <div>
