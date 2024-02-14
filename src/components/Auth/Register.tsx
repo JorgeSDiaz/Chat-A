@@ -5,7 +5,7 @@ import ErrorRulesMessage from "./ErrorRulesMessage";
 //   email: string;
 //   username: string;
 //   password: string;
-//   verifyPassword: string;
+//   confirmPassword: string;
 //   birthDate: Date;
 // }
 
@@ -14,6 +14,7 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
@@ -76,10 +77,13 @@ export default function Register() {
 
             <input
               type="password"
-              placeholder="Verify password ⁕"
-              className={"block w-full rounded-md p-2 border " + `${errors.verifyPassword ? errorInputStyle : ""}`}
-              {...register("verifyPassword", { required: true })}
+              placeholder="Confirm password ⁕"
+              className={"block w-full rounded-md p-2 border " + `${errors.confirmPassword ? errorInputStyle : ""}`}
+              {...register("confirmPassword", { required: true, validate: (value) => value === watch("password") })}
             />
+            {errors.confirmPassword?.type === "validate" &&
+              <p className="text-xs text-red-500">Passwords do not match</p>
+            }
           </div>
         </div>
         <button className="bg-green-500 text-white block w-full rounded-md p-2 mt-6">
