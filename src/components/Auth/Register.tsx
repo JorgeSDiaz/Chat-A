@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import ErrorRulesMessage from "./ErrorRulesMessage";
 
 // interface IFormInput {
 //   email: string;
@@ -22,6 +23,7 @@ export default function Register() {
   const errorInputStyle: string = "border-red-500 focus:outline-red-500";
 
   const emailRules: string[] = ["Use of lowercase letters only", "Minimum one @ and one ."];
+  const usernameRules: string[] = ["Use of lowercase and uppercase letters", "Use of numbers", "No special characters", "Minimum 5 characters", "Maximum 20 characters"];
 
   return (
     <div onSubmit={handleSubmit((data) => onSubmit(data))} className="bg-green-100 h-screen flex items-center">
@@ -35,19 +37,9 @@ export default function Register() {
               className={"block w-full rounded-md p-2 border " + `${errors.email ? errorInputStyle : ""}`}
               {...register("email", { required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/ })}
             />
-            {errors.email?.type == "pattern" &&
-              <div>
-                <span className="text-red-500 text-xs font-bold italic">
-                  <p>Invalid email format</p>
-                  <ul className="list-disc list-inside">
-                    {
-                      emailRules.map((emailRule: string) => {
-                        return <li className="ml-2">{emailRule}</li>
-                      })
-                    }
-                  </ul>
-                </span>
-              </div>}
+            {errors.email?.type === "pattern" &&
+              <ErrorRulesMessage title="Invalid email" rules={emailRules} />
+            }
           </div>
 
           <div>
@@ -55,8 +47,11 @@ export default function Register() {
               type="text"
               placeholder="Username ⁕"
               className={"block w-full rounded-md p-2 border " + `${errors.username ? errorInputStyle : ""}`}
-              {...register("username", { required: true })}
+              {...register("username", { required: true, minLength: 5, maxLength: 20, pattern: /^[a-zA-Z0-9]+$/ })}
             />
+            {(errors.username?.type === "minLength" || errors.username?.type === "maxLength" || errors.username?.type === "pattern") &&
+              <ErrorRulesMessage title="Invalid username" rules={usernameRules} />
+            }
           </div>
 
           <div>
